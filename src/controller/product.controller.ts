@@ -37,6 +37,18 @@ const getProducts = catchAsync(async (req: Request, res: Response, next: NextFun
     });
 })
 
+const getProduct = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+  const {id} = req.params
+  const product = await Products.findById(id)
+  res.status(200).json({
+    status: "success",
+    error: false,
+    data: {
+      product
+    }
+  })
+})
+
 const getSerchedProducts = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { q } = req.query
     const queryString = new RegExp(`${q}`)
@@ -65,4 +77,4 @@ const createProduct = catchAsync(async (req: Request, res: Response, next: NextF
     })
 })
 
-export { getProducts, createProduct, getSerchedProducts };
+export { getProducts, getProduct, createProduct, getSerchedProducts };
