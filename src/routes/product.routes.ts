@@ -1,7 +1,7 @@
 import express from "express";
 import {
   createProduct,
-  getProduct,
+  // getProduct,
   getProducts,
   getSerchedProducts,
 } from "../controller/product.controller";
@@ -9,6 +9,5 @@ import {
 const router = express.Router();
 
 router.route("/").get(getProducts).post(createProduct)
-router.route("/:id").get(getProduct)
 router.route("/search").get(getSerchedProducts)
 export default router;

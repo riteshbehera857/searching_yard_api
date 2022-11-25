@@ -11,14 +11,16 @@ const catchAsync = (fn: (req: Request, res: Response, next: NextFunction) => Pro
 const getProducts = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const queryObj = { ...req.query }
     const sort: any = req.query.sort
-    
-    const excludedFields = ['limit', 'fields']
-    excludedFields.forEach(el => delete queryObj[el])
+    const {id} = req.query
 
     let queryStr = JSON.stringify(queryObj)
     queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`)
     
     let query = Products.find(JSON.parse(queryStr))
+    
+    if (id) {
+      query = Products.find({_id: id})
+    }
 
     if (sort === "name") {
       query = query.sort(sort)
@@ -50,8 +52,8 @@ const getProduct = catchAsync(async (req: Request, res: Response, next: NextFunc
 })
 
 const getSerchedProducts = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const { q } = req.query
-    const queryString = new RegExp(`${q}`)
+  const { q } = req.query
+  const queryString = new RegExp(`${q}`)
     const products = await Products.find({name: {$regex: queryString, $options: 'i'}})
     
     res.status(200).json({
