@@ -15,7 +15,7 @@ const app = (0, express_1.default)();
 const server = (0, http_1.createServer)(app);
 app.use((0, morgan_1.default)('dev'));
 app.use((0, cors_1.default)({
-    origin: "http://localhost:3000",
+    origin: "*",
     credentials: true,
 }));
 app.use(express_1.default.json());
